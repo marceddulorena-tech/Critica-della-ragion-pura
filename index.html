@@ -1,0 +1,2328 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Critica della Ragion Pura — Infografica Interattiva Completa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500&family=Italiana&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0c09;
+    --ink-soft: #2a241c;
+    --paper: #f5efe5;
+    --paper-dark: #e8dfd0;
+    --paper-darker: #ddd2bd;
+    --sepia: #4a3419;
+    --sepia-light: #6b4a2b;
+    --gold: #8a5e1a;
+    --gold-bright: #b8852e;
+    --crimson: #5e1616;
+    --crimson-bright: #7a1f1f;
+    --blue-deep: #1e3a5f;
+    --violet: #3a0d6e;
+    --rose: #7a2d55;
+    --shadow: rgba(15, 12, 9, 0.18);
+    --rule: #a8956f;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 17px; }
+
+  body {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 500;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(166, 124, 46, 0.04) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(122, 31, 31, 0.03) 0%, transparent 50%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9'/><feColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0 0.05 0 0 0 0 0.04 0'/></filter><rect width='100' height='100' filter='url(%23n)'/></svg>");
+  }
+
+  /* ============ FRONTISPIECE ============ */
+  header.frontispiece {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    text-align: center;
+    border-bottom: 1px solid var(--rule);
+  }
+  .frontispiece::before {
+    content: '';
+    position: absolute;
+    top: 2rem; left: 2rem; right: 2rem; bottom: 2rem;
+    border: 1px solid var(--sepia);
+    opacity: 0.4; pointer-events: none;
+  }
+  .frontispiece::after {
+    content: '';
+    position: absolute;
+    top: 2.4rem; left: 2.4rem; right: 2.4rem; bottom: 2.4rem;
+    border: 1px solid var(--sepia);
+    opacity: 0.2; pointer-events: none;
+  }
+  .ornament {
+    font-family: 'Italiana', serif;
+    color: var(--gold);
+    font-size: 2rem;
+    letter-spacing: 0.5em;
+    margin: 1rem 0;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--sepia);
+    margin-bottom: 2rem;
+  }
+  h1.title {
+    font-family: 'Italiana', serif;
+    font-size: clamp(3rem, 9vw, 7.5rem);
+    line-height: 0.95;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  h1.title .della {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.35em;
+    color: var(--crimson);
+    margin: 0.3em 0;
+    letter-spacing: 0.1em;
+  }
+  .subtitle {
+    font-style: italic;
+    font-size: 1.4rem;
+    color: var(--sepia);
+    margin-top: 2rem;
+    max-width: 750px;
+    line-height: 1.5;
+  }
+  .author-block {
+    margin-top: 3rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+  }
+  .author-block .name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    margin: 0.5rem 0;
+  }
+  .dates { color: var(--sepia); font-weight: 500; }
+  .scroll-cue {
+    position: absolute; bottom: 3rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    color: var(--sepia);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(6px); }
+  }
+
+  /* ============ NAVIGATION ============ */
+  nav.chapters {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(245, 239, 229, 0.97);
+    border-bottom: 2px solid var(--rule);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    backdrop-filter: blur(8px);
+  }
+  nav.chapters a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sepia);
+    text-decoration: none;
+    transition: color 0.3s;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 3px;
+  }
+  nav.chapters a:hover {
+    color: var(--crimson);
+    border-bottom-color: var(--crimson);
+  }
+
+  /* ============ SECTIONS ============ */
+  section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+    position: relative;
+  }
+  .chapter-mark {
+    font-family: 'Italiana', serif;
+    font-size: 3.5rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .chapter-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    color: var(--sepia);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  h2.chapter-title {
+    font-family: 'Italiana', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 400;
+    margin: 1rem 0 2rem;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+  h2.chapter-title em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 600;
+    color: var(--crimson);
+  }
+  h3.sub {
+    font-family: 'Italiana', serif;
+    font-size: 1.85rem;
+    margin: 2.5rem 0 1rem;
+    color: var(--crimson);
+  }
+  .lead {
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.65;
+    margin-bottom: 2rem;
+    max-width: 740px;
+    color: var(--ink);
+  }
+  .lead::first-letter {
+    font-family: 'Italiana', serif;
+    font-size: 4.2rem;
+    float: left;
+    line-height: 0.9;
+    margin: 0.1em 0.1em 0 0;
+    color: var(--crimson);
+  }
+  p {
+    max-width: 740px;
+    margin-bottom: 1.3rem;
+    font-size: 1.18rem;
+    font-weight: 500;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+
+  .pullquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.55rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    border-left: 3px solid var(--gold);
+    padding: 0.8rem 0 0.8rem 2rem;
+    margin: 2.5rem 0;
+    max-width: 780px;
+  }
+  .pullquote cite {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--sepia);
+    margin-top: 1rem;
+    font-style: normal;
+  }
+
+  /* ============ TIMELINE ============ */
+  .timeline-wrap {
+    margin: 3rem 0;
+    padding: 2rem;
+    background: var(--paper-dark);
+    border: 1px solid var(--rule);
+  }
+  .timeline-title {
+    font-family: 'Italiana', serif;
+    font-size: 1.9rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: var(--ink);
+  }
+  .timeline-sub {
+    text-align: center;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--sepia);
+    margin-bottom: 2.5rem;
+  }
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    border-left: 2px solid var(--sepia);
+  }
+  .tl-event {
+    position: relative;
+    margin-bottom: 1.8rem;
+    padding-left: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  .tl-event:hover { transform: translateX(4px); }
+  .tl-event::before {
+    content: '';
+    position: absolute;
+    left: -2.6rem;
+    top: 0.5rem;
+    width: 14px;
+    height: 14px;
+    background: var(--paper);
+    border: 2px solid var(--sepia);
+    border-radius: 50%;
+    transition: background 0.3s;
+  }
+  .tl-event:hover::before,
+  .tl-event.active::before { background: var(--crimson); border-color: var(--crimson); }
+  .tl-event .year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--crimson);
+  }
+  .tl-event .tl-title {
+    font-family: 'Italiana', serif;
+    font-size: 1.4rem;
+    margin: 0.3rem 0;
+    color: var(--ink);
+  }
+  .tl-event .tl-desc {
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .tl-event.active .tl-desc { max-height: 250px; margin-top: 0.6rem; }
+
+  /* ============ PERIOD CARDS ============ */
+  .periods-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+  }
+  @media (max-width: 768px) { .periods-grid { grid-template-columns: 1fr; } }
+  .period-card {
+    padding: 2rem 1.5rem;
+    border: 1px solid var(--sepia);
+    background: var(--paper-dark);
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .period-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px var(--shadow);
+  }
+  .period-card .num {
+    font-family: 'Italiana', serif;
+    font-size: 3.5rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .period-card .year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    color: var(--crimson);
+    margin: 0.5rem 0;
+  }
+  .period-card h4 {
+    font-family: 'Italiana', serif;
+    font-size: 1.5rem;
+    margin: 0.8rem 0;
+    color: var(--ink);
+  }
+  .period-card p {
+    font-size: 1rem;
+    line-height: 1.55;
+    text-align: left;
+    max-width: none;
+    color: var(--ink-soft);
+  }
+
+  /* ============ COPERNICAN ============ */
+  .copernican-viz {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 3rem 0;
+  }
+  @media (max-width: 768px) { .copernican-viz { grid-template-columns: 1fr; } }
+  .paradigm {
+    background: var(--paper-dark);
+    border: 1px solid var(--rule);
+    padding: 2rem;
+    transition: transform 0.4s, box-shadow 0.4s;
+    cursor: pointer;
+  }
+  .paradigm:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px var(--shadow);
+  }
+  .paradigm .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--sepia);
+  }
+  .paradigm h3 {
+    font-family: 'Italiana', serif;
+    font-size: 1.8rem;
+    margin: 0.8rem 0 1rem;
+  }
+  .paradigm .orbit { width: 100%; height: 200px; margin: 1rem 0; }
+  .paradigm.pre h3 { color: var(--sepia); }
+  .paradigm.post h3 { color: var(--crimson); }
+  .paradigm p {
+    font-size: 1.05rem !important;
+    line-height: 1.6;
+    color: var(--ink) !important;
+  }
+
+  .arrow-transform {
+    text-align: center;
+    font-family: 'Italiana', serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    margin: 2rem 0;
+    letter-spacing: 0.3em;
+  }
+
+  /* ============ STRUCTURE MAP ============ */
+  .structure-map {
+    margin: 3rem 0;
+    padding: 2rem;
+    background: var(--paper-dark);
+    border: 1px solid var(--sepia);
+    overflow-x: auto;
+  }
+  .structure-map svg {
+    width: 100%;
+    min-width: 700px;
+    height: auto;
+    display: block;
+  }
+  .sm-node {
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  .sm-node:hover { opacity: 0.85; }
+
+  .faculty-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+  }
+  @media (max-width: 768px) { .faculty-grid { grid-template-columns: 1fr; } }
+  .faculty {
+    padding: 2rem 1.5rem;
+    background: var(--paper-dark);
+    border-top: 3px solid var(--gold);
+    position: relative;
+    transition: transform 0.3s;
+  }
+  .faculty:hover { transform: translateY(-4px); }
+  .faculty .symbol {
+    font-family: 'Italiana', serif;
+    font-size: 2.8rem;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .faculty h4 {
+    font-family: 'Italiana', serif;
+    font-size: 1.6rem;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+  .faculty .german {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--sepia);
+    margin-bottom: 1rem;
+  }
+  .faculty p {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    max-width: none;
+    color: var(--ink);
+  }
+  .faculty .output {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    color: var(--crimson);
+  }
+
+  /* ============ JUDGMENTS ============ */
+  .judgments-wrap {
+    margin: 3rem 0;
+    border: 1px solid var(--sepia);
+    background: var(--paper-dark);
+    padding: 2rem;
+  }
+  .judgments-caption {
+    text-align: center;
+    font-family: 'Italiana', serif;
+    font-size: 1.9rem;
+    margin-bottom: 0.3rem;
+    color: var(--ink);
+  }
+  .judgments-sub {
+    text-align: center;
+    font-style: italic;
+    color: var(--sepia);
+    margin-bottom: 2rem;
+    font-size: 1.05rem;
+  }
+  .judgments-table {
+    display: grid;
+    grid-template-columns: auto repeat(3, 1fr);
+    gap: 0;
+    font-size: 1rem;
+  }
+  @media (max-width: 700px) {
+    .judgments-table { grid-template-columns: 1fr; }
+    .judgments-table .row-label { border-top: 2px solid var(--sepia); padding-top: 1rem; margin-top: 0.5rem; }
+  }
+  .jcell {
+    padding: 1.1rem;
+    border-bottom: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    transition: background 0.3s;
+    cursor: pointer;
+    position: relative;
+  }
+  .jcell:hover { background: rgba(138, 94, 26, 0.1); }
+  .jcell.header, .jcell.row-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    background: transparent;
+    cursor: default;
+  }
+  .jcell.header {
+    color: var(--crimson);
+    border-bottom: 2px solid var(--sepia);
+  }
+  .jcell.row-label { color: var(--sepia); }
+  .jcell.header:hover, .jcell.row-label:hover { background: transparent; }
+  .jcell .judg {
+    font-family: 'Italiana', serif;
+    font-size: 1.3rem;
+    color: var(--ink);
+  }
+  .jcell .cat {
+    display: block;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--crimson);
+    font-size: 1.05rem;
+    margin-top: 0.4rem;
+  }
+  .jcell .detail {
+    display: none;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    margin-top: 0.6rem;
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .jcell.active { background: rgba(138, 94, 26, 0.15); }
+  .jcell.active .detail { display: block; animation: fadeIn 0.4s; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .table-hint {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--sepia);
+    margin-top: 1.5rem;
+    letter-spacing: 0.15em;
+  }
+
+  /* ============ JUDGMENT TYPES ============ */
+  .judg-types {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .judg-type {
+    background: var(--paper-dark);
+    padding: 1.4rem;
+    border-left: 4px solid var(--sepia);
+    transition: border-left-width 0.3s;
+  }
+  .judg-type:hover { border-left-width: 8px; }
+  .judg-type.star { border-left-color: var(--crimson); }
+  .judg-type .mini-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    color: var(--sepia);
+  }
+  .judg-type.star .mini-label { color: var(--crimson); }
+  .judg-type p {
+    font-size: 1.05rem;
+    line-height: 1.55;
+    margin: 0.6rem 0 0;
+    color: var(--ink);
+  }
+
+  /* ============ AESTHETICS ============ */
+  .aesthetics-interactive {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 3rem 0;
+  }
+  @media (max-width: 768px) { .aesthetics-interactive { grid-template-columns: 1fr; } }
+  .form-card {
+    background: var(--paper-dark);
+    border: 1px solid var(--rule);
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.4s;
+  }
+  .form-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 10px 30px var(--shadow);
+  }
+  .form-card .symbol {
+    font-family: 'Italiana', serif;
+    font-size: 4rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .form-card h3 {
+    font-family: 'Italiana', serif;
+    font-size: 2.2rem;
+    margin: 1rem 0;
+    color: var(--ink);
+  }
+  .form-card .greek {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--sepia);
+    margin-bottom: 1rem;
+  }
+  .form-card p {
+    font-size: 1.08rem;
+    line-height: 1.6;
+    text-align: left;
+    color: var(--ink);
+  }
+
+  .aesth-demo {
+    margin: 3rem 0;
+    background: var(--paper-dark);
+    border: 1px solid var(--sepia);
+    padding: 2rem;
+  }
+  .aesth-demo h3 {
+    font-family: 'Italiana', serif;
+    font-size: 1.9rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: var(--ink);
+  }
+  .aesth-controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+  }
+  .aesth-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    padding: 0.8rem 1.5rem;
+    border: 2px solid var(--sepia);
+    background: transparent;
+    color: var(--sepia);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .aesth-btn:hover, .aesth-btn.active {
+    background: var(--sepia);
+    color: var(--paper);
+  }
+  #aesth-canvas {
+    width: 100%;
+    height: 280px;
+    display: block;
+    margin: 1rem auto;
+  }
+  .aesth-caption {
+    text-align: center;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 1.1rem;
+    min-height: 3rem;
+    padding: 0 1rem;
+    line-height: 1.55;
+  }
+
+  /* ============ DEDUCTION & IO PENSO ============ */
+  .io-penso-center {
+    margin: 3rem auto;
+    max-width: 700px;
+    text-align: center;
+    padding: 3rem 2rem;
+    background: radial-gradient(circle, var(--paper-darker), var(--paper-dark));
+    border: 1px solid var(--sepia);
+    position: relative;
+  }
+  .io-penso-center::before,
+  .io-penso-center::after {
+    content: '✦';
+    position: absolute;
+    color: var(--gold);
+    font-size: 1.2rem;
+  }
+  .io-penso-center::before { top: 1rem; left: 1rem; }
+  .io-penso-center::after { bottom: 1rem; right: 1rem; }
+  .io-penso-center .main {
+    font-family: 'Italiana', serif;
+    font-size: 3.4rem;
+    color: var(--ink);
+    margin: 0.5rem 0;
+  }
+  .io-penso-center .sub {
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 1.2rem;
+    max-width: 560px;
+    margin: 1rem auto 0;
+    line-height: 1.55;
+  }
+  .io-penso-center .latin {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    color: var(--crimson);
+    margin-top: 0.8rem;
+  }
+
+  /* ============ DIALECTIC / IDEE ============ */
+  .idee-wrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+  }
+  @media (max-width: 768px) { .idee-wrap { grid-template-columns: 1fr; } }
+  .idea {
+    background: var(--paper-dark);
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .idea:hover { transform: translateY(-4px); }
+  .idea::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .idea .symbol {
+    font-family: 'Italiana', serif;
+    font-size: 3rem;
+    color: var(--violet);
+  }
+  .idea h4 {
+    font-family: 'Italiana', serif;
+    font-size: 1.7rem;
+    margin: 0.6rem 0;
+    color: var(--ink);
+  }
+  .idea .discipline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    color: var(--crimson);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .idea p {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    text-align: left;
+    max-width: none;
+    color: var(--ink);
+  }
+
+  .metafora-colomba {
+    margin: 3rem 0;
+    padding: 2rem;
+    background: var(--paper-dark);
+    border-left: 4px solid var(--gold);
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  .metafora-colomba svg { width: 80px; height: 80px; }
+  .metafora-colomba .txt h4 {
+    font-family: 'Italiana', serif;
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+    color: var(--crimson);
+  }
+  .metafora-colomba .txt p {
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+
+  /* ============ REGULATIVE ============ */
+  .regulative-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+    font-size: 1rem;
+  }
+  @media (max-width: 768px) { .regulative-grid { grid-template-columns: 1fr; } }
+  .reg-item {
+    padding: 1.4rem;
+    border: 1px dashed var(--sepia);
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .reg-item strong {
+    font-family: 'Italiana', serif;
+    font-size: 1.4rem;
+    color: var(--crimson);
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+  }
+
+  /* ============ SYNTHESIS MAP ============ */
+  .synthesis-map {
+    margin: 3rem 0;
+    padding: 2rem;
+    border: 1px solid var(--rule);
+    background: var(--paper-dark);
+    overflow-x: auto;
+  }
+  .synthesis-map svg {
+    width: 100%;
+    min-width: 700px;
+    max-height: 620px;
+    height: auto;
+  }
+
+  /* ============ FINAL QUOTE ============ */
+  .final-quote {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 5rem 2rem;
+    text-align: center;
+    margin: 3rem 0 0;
+  }
+  .final-quote .q {
+    font-family: 'Italiana', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.2;
+    color: var(--paper);
+  }
+  .final-quote .c {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    margin-top: 2rem;
+  }
+
+  /* ============ SOURCES ============ */
+  .sources {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 4rem 2rem;
+  }
+  .sources-inner { max-width: 1100px; margin: 0 auto; }
+  .sources h2 {
+    font-family: 'Italiana', serif;
+    font-size: 2.5rem;
+    color: var(--paper);
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .source-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .source {
+    padding: 1.5rem;
+    border: 1px solid rgba(242, 235, 224, 0.2);
+    transition: border-color 0.3s;
+  }
+  .source:hover { border-color: var(--gold); }
+  .source .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gold);
+    letter-spacing: 0.3em;
+  }
+  .source .inst {
+    font-family: 'Italiana', serif;
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+    color: var(--paper);
+  }
+  .source .desc {
+    font-size: 0.9rem;
+    color: rgba(242, 235, 224, 0.7);
+    font-style: italic;
+    margin-bottom: 0.8rem;
+  }
+  .source a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--gold);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    word-break: break-all;
+  }
+  .source a:hover { text-decoration: underline; }
+
+  footer.colophon {
+    text-align: center;
+    padding: 2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--sepia);
+    border-top: 1px solid var(--rule);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ============ INLINE DEFINITIONS ============ */
+  .def {
+    border-bottom: 1px dotted var(--crimson);
+    cursor: help;
+    position: relative;
+  }
+  .def::after {
+    content: attr(data-def);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.8rem 1rem;
+    font-style: normal;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    width: 260px;
+    max-width: 85vw;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 10;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .def:hover::after { opacity: 1; }
+
+  /* ============ ACCORDIONS ============ */
+  details.accordion {
+    background: var(--paper-dark);
+    border: 1px solid var(--rule);
+    padding: 1rem 1.5rem;
+    margin: 1rem 0;
+    transition: border-color 0.3s;
+  }
+  details.accordion[open] { border-color: var(--sepia); }
+  details.accordion summary {
+    cursor: pointer;
+    font-family: 'Italiana', serif;
+    font-size: 1.25rem;
+    color: var(--ink);
+    list-style: none;
+    outline: none;
+  }
+  details.accordion summary::-webkit-details-marker { display: none; }
+  details.accordion summary::before {
+    content: '❦ ';
+    color: var(--gold);
+    margin-right: 0.5rem;
+    transition: transform 0.3s;
+    display: inline-block;
+  }
+  details.accordion[open] summary::before { content: '✧ '; }
+  details.accordion div { margin-top: 1rem; font-size: 1rem; }
+
+  .domande-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .domanda {
+    padding: 1.5rem;
+    background: var(--paper-dark);
+    border: 1px solid var(--rule);
+    text-align: center;
+  }
+  .domanda .nr {
+    font-family: 'Italiana', serif;
+    font-size: 2.5rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .domanda p {
+    font-family: 'Italiana', serif;
+    font-size: 1.1rem;
+    margin: 0.8rem 0 0;
+    max-width: none;
+    color: var(--ink);
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ FRONTESPIZIO ============ -->
+<header class="frontispiece">
+  <div class="eyebrow">Infografica Filosofica Interattiva · 1781 / 1787</div>
+  <div class="ornament">❦ ❧ ❦</div>
+  <h1 class="title">
+    Critica
+    <span class="della">della</span>
+    Ragion Pura
+  </h1>
+  <div class="ornament">⁘</div>
+  <p class="subtitle">Vita · Rivoluzione copernicana · Estetica · Logica · Dialettica trascendentale</p>
+  <div class="author-block">
+    <div>IMMANUEL</div>
+    <div class="name">K  A  N  T</div>
+    <div class="dates">KÖNIGSBERG MDCCXXIV — MDCCCIV</div>
+  </div>
+  <div class="scroll-cue">↓ DISCENDI ↓</div>
+</header>
+
+<!-- ============ NAV ============ -->
+<nav class="chapters">
+  <a href="#vita">Vita</a>
+  <a href="#contesto">Contesto</a>
+  <a href="#rivoluzione">Rivoluzione</a>
+  <a href="#struttura">Struttura</a>
+  <a href="#facolta">Facoltà</a>
+  <a href="#estetica">Estetica</a>
+  <a href="#analitica">Analitica</a>
+  <a href="#deduzione">Io penso</a>
+  <a href="#dialettica">Dialettica</a>
+  <a href="#sintesi">Sintesi</a>
+  <a href="#fonti">Fonti</a>
+</nav>
+
+<!-- ============ I. VITA ============ -->
+<section id="vita" class="reveal">
+  <div class="chapter-mark">§ I</div>
+  <div class="chapter-num">Prologo biografico</div>
+  <h2 class="chapter-title">Una vita di <em>pensiero</em></h2>
+
+  <p class="lead">
+    Immanuel Kant nasce e muore a Königsberg, città della Prussia Orientale che non lascerà mai. Una vita
+    esteriormente monotona — tanto puntuale che, si diceva, i cittadini regolavano l'orologio sulla sua
+    passeggiata — ma interiormente abitata da uno sforzo di pensiero senza precedenti. <em>Kant, in
+    Prussia, è l'Illuminismo</em>.
+  </p>
+
+  <div class="timeline-wrap">
+    <div class="timeline-title">Biografia in sintesi</div>
+    <div class="timeline-sub">Clicca su ogni tappa per approfondire</div>
+    <div class="timeline">
+      <div class="tl-event">
+        <div class="year">1724</div>
+        <div class="tl-title">Nascita a Königsberg</div>
+        <div class="tl-desc">Quarto figlio di famiglia modesta di origine pietista. Il pietismo, movimento devozionale luterano che enfatizza la vita morale interiore, lascerà traccia nell'etica kantiana.</div>
+      </div>
+      <div class="tl-event">
+        <div class="year">1740</div>
+        <div class="tl-title">Collegium Fridericianum</div>
+        <div class="tl-desc">Conclude gli studi nel rigoroso collegio pietista. Poi all'Università di Königsberg: matematica, filosofia, fisica newtoniana, teologia.</div>
+      </div>
+      <div class="tl-event">
+        <div class="year">1755</div>
+        <div class="tl-title">Libera docenza — per 15 anni</div>
+        <div class="tl-desc">Dopo anni come precettore privato, ottiene la libera docenza. Pubblica la <em>Storia naturale universale e teoria dei cieli</em>, anticipando l'ipotesi nebulare della formazione del sistema solare.</div>
+      </div>
+      <div class="tl-event">
+        <div class="year">1766</div>
+        <div class="tl-title">Sottobibliotecario alla Biblioteca Reale</div>
+        <div class="tl-desc">Pubblica i <em>Sogni di un visionario</em> contro Swedenborg: critica della metafisica come fantasticheria senza fondamento empirico.</div>
+      </div>
+      <div class="tl-event">
+        <div class="year">1770</div>
+        <div class="tl-title">Cattedra di logica e metafisica</div>
+        <div class="tl-desc">Finalmente docente ordinario. La <em>Dissertazione</em> (<em>De mundi sensibilis atque intelligibilis forma et principiis</em>) delinea spazio e tempo come intuizioni pure: prefigura la svolta trascendentale.</div>
+      </div>
+      <div class="tl-event">
+        <div class="year">1781</div>
+        <div class="tl-title">★ Critica della Ragion Pura — I edizione</div>
+        <div class="tl-desc">Dopo undici anni di "silenzio critico", esce l'opera che ribalterà la filosofia occidentale. Ne seguiranno la <em>Critica della ragion pratica</em> (1788) e la <em>Critica del Giudizio</em> (1790).</div>
+      </div>
+      <div class="tl-event">
+        <div class="year">1795</div>
+        <div class="tl-title">Per la Pace Perpetua</div>
+        <div class="tl-desc">Simpatizzante dell'Indipendenza americana e della Rivoluzione francese, Kant propone una federazione di stati repubblicani come garanzia della pace. Libertà, indipendenza, eguaglianza: i suoi ideali politici.</div>
+      </div>
+      <div class="tl-event">
+        <div class="year">1804</div>
+        <div class="tl-title">Morte a Königsberg</div>
+        <div class="tl-desc">Muore a 80 anni. "Il cielo stellato sopra di me, la legge morale dentro di me": le parole scolpite sulla sua tomba.</div>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sub">I tre periodi dell'opera</h3>
+
+  <div class="periods-grid">
+    <div class="period-card">
+      <div class="num">I</div>
+      <div class="year">FINO AL 1760</div>
+      <h4>Scientifico</h4>
+      <p>Interesse dominante per le scienze naturali. Scritti di cosmogonia, fisica, monadologia. Kant è ancora nell'orbita del razionalismo leibniziano-wolffiano.</p>
+    </div>
+    <div class="period-card">
+      <div class="num">II</div>
+      <div class="year">1760 — 1781</div>
+      <h4>Criticismo e empirismo</h4>
+      <p>Avvicinamento a Hume: crisi del razionalismo dogmatico. La metafisica tradizionale non regge. "Hume — scriverà Kant — mi risvegliò dal sonno dogmatico".</p>
+    </div>
+    <div class="period-card">
+      <div class="num">III</div>
+      <div class="year">DAL 1781</div>
+      <h4>Filosofia trascendentale</h4>
+      <p>Il periodo <em>critico</em>. Le tre <em>Critiche</em> fondano una nuova idea di filosofia: indagine sui fondamenti, le condizioni e i limiti del conoscere, dell'agire, del giudicare.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ II. CONTESTO: il criticismo ============ -->
+<section id="contesto" class="reveal">
+  <div class="chapter-mark">§ II</div>
+  <div class="chapter-num">Il criticismo come filosofia del limite</div>
+  <h2 class="chapter-title">La Critica come <em>tribunale</em> della metafisica</h2>
+
+  <p class="lead">
+    Kant paragona la <em>Critica della Ragion Pura</em> a un <em>tribunale</em>: la metafisica vi si
+    presenta come imputata. Lo scopo non è condannarla, ma distinguere le sue pretese legittime da quelle
+    infondate. Solo così si può ridare dignità a un sapere che, fino ad allora, era stato "il campo in
+    cui si combattono lotte senza conclusioni".
+  </p>
+
+  <div class="pullquote">
+    Bisogna sottoporre a verifica la metafisica per tutelare il valore della ragione nelle sue giuste
+    pretese ed eliminare quelle senza fondamento, per ridarle dignità.
+    <cite>— CRITICA, INTRODUZIONE</cite>
+  </div>
+
+  <h3 class="sub">Gli ambiti della metafisica tradizionale</h3>
+
+  <div class="idee-wrap">
+    <div class="idea">
+      <div class="symbol">☉</div>
+      <h4>Psicologia</h4>
+      <div class="discipline">RAZIONALE</div>
+      <p>Studia la mente o anima umana. La questione centrale: <em>l'anima è immortale?</em></p>
+    </div>
+    <div class="idea">
+      <div class="symbol">∞</div>
+      <h4>Cosmologia</h4>
+      <div class="discipline">RAZIONALE</div>
+      <p>Studia il mondo come ordine e nella sua origine: creato o eterno? Limitato o illimitato? L'ordine è necessario o c'è libertà?</p>
+    </div>
+    <div class="idea">
+      <div class="symbol">✦</div>
+      <h4>Teologia</h4>
+      <div class="discipline">RAZIONALE</div>
+      <p>Tenta di dimostrare l'esistenza di Dio e le sue caratteristiche: onnipotenza, onniscienza, bontà.</p>
+    </div>
+  </div>
+
+  <h3 class="sub">Il criticismo definito</h3>
+
+  <p>
+    Il criticismo è il metodo di Kant: <em>un continuo interrogarsi sul fondamento di determinate
+    esperienze umane</em>, chiarendone tre aspetti. Non una dottrina chiusa, ma un'attitudine filosofica
+    — la filosofia del limite.
+  </p>
+
+  <div class="domande-grid">
+    <div class="domanda">
+      <div class="nr">I</div>
+      <p>Le <em>possibilità</em><br><small style="color: var(--sepia);">condizioni di esistenza</small></p>
+    </div>
+    <div class="domanda">
+      <div class="nr">II</div>
+      <p>La <em>validità</em><br><small style="color: var(--sepia);">legittimità e non legittimità</small></p>
+    </div>
+    <div class="domanda">
+      <div class="nr">III</div>
+      <p>I <em>limiti</em><br><small style="color: var(--sepia);">confini di validità</small></p>
+    </div>
+  </div>
+
+  <h3 class="sub">Le quattro domande della Critica</h3>
+
+  <details class="accordion">
+    <summary>Com'è possibile una matematica pura?</summary>
+    <div>Risposta nell'<strong>Estetica trascendentale</strong>: la matematica è possibile perché spazio e tempo sono intuizioni pure a priori. La geometria poggia sull'intuizione pura dello spazio; l'aritmetica su quella del tempo (la successione).</div>
+  </details>
+  <details class="accordion">
+    <summary>Com'è possibile una fisica pura?</summary>
+    <div>Risposta nell'<strong>Analitica trascendentale</strong>: la fisica è possibile perché l'intelletto possiede categorie a priori (causalità, sostanza, reciprocità) che strutturano l'esperienza e rendono possibili le leggi universali della natura.</div>
+  </details>
+  <details class="accordion">
+    <summary>Com'è possibile la metafisica come disposizione naturale?</summary>
+    <div>Risposta nella <strong>Dialettica trascendentale</strong>: la metafisica nasce da una tendenza innata e inevitabile della ragione umana verso l'assoluto, l'incondizionato, la totalità. La colomba kantiana che vuole volare nel vuoto.</div>
+  </details>
+  <details class="accordion">
+    <summary>Com'è possibile la metafisica come scienza?</summary>
+    <div>Risposta negativa: la metafisica <em>come scienza</em> — cioè come conoscenza di oggetti trascendenti (Dio, anima, mondo) — non è possibile. Possibile invece come <em>disciplina critica</em> dei limiti della ragione.</div>
+  </details>
+
+  <div class="pullquote">
+    La ragione umana, anche senza il pungolo della semplice vanità dell'onniscienza, è perpetuamente
+    sospinta da un proprio bisogno verso quei problemi che non possono in nessun modo essere risolti da
+    un uso empirico della ragione.
+    <cite>— CRITICA, INTRODUZIONE</cite>
+  </div>
+</section>
+
+<!-- ============ III. RIVOLUZIONE COPERNICANA ============ -->
+<section id="rivoluzione" class="reveal">
+  <div class="chapter-mark">§ III</div>
+  <div class="chapter-num">Il grande ribaltamento</div>
+  <h2 class="chapter-title">La <em>rivoluzione</em> copernicana</h2>
+
+  <p class="lead">
+    Hume aveva risvegliato Kant dal sonno dogmatico mostrando che la causalità non si deduce
+    dall'esperienza. Ma Kant non si ferma allo scetticismo: le leggi e l'ordine delle cose sono vere,
+    solo che appartengono al <em>soggetto</em>, non all'oggetto. Conosciamo le cose come possiamo —
+    cioè come sono <em>per</em> il soggetto che conosce.
+  </p>
+
+  <div class="pullquote">
+    Finora si è supposto che ogni nostra conoscenza si debba regolare sugli oggetti. […] Si ricerchi ora
+    pertanto se non si progredisca meglio nei compiti della metafisica assumendo che gli oggetti si
+    debbano regolare sulla nostra conoscenza.
+    <cite>— PREFAZIONE ALLA SECONDA EDIZIONE (B XVI)</cite>
+  </div>
+
+  <h3 class="sub">I giudizi sintetici a priori: il cuore del problema</h3>
+
+  <p>
+    Kant parte dalle scienze. La matematica e la fisica contengono proposizioni <em>universali e
+    necessarie</em> (come <em>7 + 5 = 12</em> o <em>tutto ciò che accade ha una causa</em>) che
+    <em>ampliano la conoscenza</em>. Come sono possibili? Solo se esistono forme a priori del soggetto
+    su cui si modella la realtà che percepiamo.
+  </p>
+
+  <div class="judg-types">
+    <div class="judg-type">
+      <div class="mini-label">ANALITICO A PRIORI</div>
+      <p><em>"Il triangolo ha tre lati."</em> Il predicato è già contenuto nel soggetto. Universale ma <em>non amplia</em> la conoscenza: è tautologico.</p>
+    </div>
+    <div class="judg-type">
+      <div class="mini-label">SINTETICO A POSTERIORI</div>
+      <p><em>"Questa rosa è rossa."</em> Aggiunge sapere ma solo <em>contingente</em>: dipende dall'esperienza.</p>
+    </div>
+    <div class="judg-type star">
+      <div class="mini-label">★ SINTETICO A PRIORI ★</div>
+      <p><em>"7 + 5 = 12."</em> <em>"Tutto ciò che accade ha una causa."</em> Universale, necessario <em>e</em> amplia la conoscenza. <strong>Il vero problema della Critica.</strong></p>
+    </div>
+  </div>
+
+  <div class="copernican-viz">
+    <div class="paradigm pre">
+      <div class="label">PRIMA DI KANT · REALISMO DOGMATICO</div>
+      <h3>L'oggetto al centro</h3>
+      <svg class="orbit" viewBox="0 0 300 200">
+        <circle cx="150" cy="100" r="28" fill="#7a1f1f" opacity="0.8"/>
+        <text x="150" y="104" text-anchor="middle" fill="#f2ebe0" font-family="Italiana" font-size="11">OGGETTO</text>
+        <ellipse cx="150" cy="100" rx="110" ry="55" fill="none" stroke="#6b4a2b" stroke-width="0.8" stroke-dasharray="3 3"/>
+        <g>
+          <circle cx="260" cy="100" r="14" fill="#6b4a2b"/>
+          <text x="260" y="125" text-anchor="middle" fill="#1a1612" font-family="JetBrains Mono" font-size="8" letter-spacing="2">SOGGETTO</text>
+          <animateTransform attributeName="transform" type="rotate" from="0 150 100" to="360 150 100" dur="40s" repeatCount="indefinite"/>
+        </g>
+        <circle cx="40" cy="100" r="3" fill="#a67c2e"/>
+        <circle cx="150" cy="45" r="3" fill="#a67c2e"/>
+        <circle cx="150" cy="155" r="3" fill="#a67c2e"/>
+      </svg>
+      <p style="font-size: 0.95rem;">
+        La mente <em>riceve</em> passivamente il mondo. La conoscenza deve adeguarsi alle cose. Esito:
+        contraddizioni insolubili della metafisica.
+      </p>
+    </div>
+
+    <div class="paradigm post">
+      <div class="label">DOPO KANT · IDEALISMO TRASCENDENTALE</div>
+      <h3>Il soggetto al centro</h3>
+      <svg class="orbit" viewBox="0 0 300 200">
+        <defs>
+          <radialGradient id="subj" cx="50%" cy="50%">
+            <stop offset="0%" stop-color="#a67c2e"/>
+            <stop offset="100%" stop-color="#6b4a2b"/>
+          </radialGradient>
+        </defs>
+        <circle cx="150" cy="100" r="34" fill="url(#subj)"/>
+        <circle cx="150" cy="100" r="44" fill="none" stroke="#a67c2e" stroke-width="0.5" opacity="0.4"/>
+        <text x="150" y="104" text-anchor="middle" fill="#f2ebe0" font-family="Italiana" font-size="11">SOGGETTO</text>
+        <ellipse cx="150" cy="100" rx="110" ry="55" fill="none" stroke="#6b4a2b" stroke-width="0.8" stroke-dasharray="3 3">
+          <animateTransform attributeName="transform" type="rotate" from="0 150 100" to="360 150 100" dur="40s" repeatCount="indefinite"/>
+        </ellipse>
+        <g>
+          <circle cx="260" cy="100" r="14" fill="#7a1f1f"/>
+          <text x="260" y="125" text-anchor="middle" fill="#1a1612" font-family="JetBrains Mono" font-size="8" letter-spacing="2">FENOMENO</text>
+          <animateTransform attributeName="transform" type="rotate" from="0 150 100" to="360 150 100" dur="40s" repeatCount="indefinite"/>
+        </g>
+      </svg>
+      <p style="font-size: 0.95rem;">
+        La mente <em>costituisce attivamente</em> l'esperienza. Il soggetto impone forme a priori al
+        materiale dei sensi. Conosciamo <em>fenomeni</em>, mai le cose in sé.
+      </p>
+    </div>
+  </div>
+
+  <div class="arrow-transform">❦ — fenomeno e cosa in sé — ❦</div>
+
+  <p>
+    Da questo ribaltamento nasce la distinzione tra <span class="def" data-def="Dal greco phainómenon = ciò che appare. È la realtà come si manifesta attraverso le forme a priori della nostra struttura conoscitiva: spazio, tempo, categorie. Il fenomeno non è illusione: è tutto ciò che possiamo conoscere oggettivamente.">fenomeno</span> e
+    <span class="def" data-def="Dal greco noeîn = pensare. La 'cosa in sé' indipendente dal nostro conoscerla. Kant la mantiene come concetto-limite: pensabile, mai conoscibile. Rappresenta il confine invalicabile della ragione teorica.">noumeno</span>.
+    Il fenomeno <em>non è illusione</em>: rimanda all'oggetto ma prende realtà solo nel rapporto con il
+    soggetto. La cosa in sé, invece, resta sconosciuta — un <em>concetto-limite</em> che frena le
+    pretese della ragione.
+  </p>
+</section>
+
+<!-- ============ IV. STRUTTURA DELL'OPERA ============ -->
+<section id="struttura" class="reveal">
+  <div class="chapter-mark">§ IV</div>
+  <div class="chapter-num">L'architettonica</div>
+  <h2 class="chapter-title">La <em>struttura</em> della Critica</h2>
+
+  <p class="lead">
+    L'opera si divide in due grandi parti. La <em>Dottrina degli Elementi</em> analizza le facoltà
+    conoscitive e le loro forme a priori; la <em>Dottrina del Metodo</em> stabilisce le regole per
+    usarle. Segue la mappa ufficiale — quella che Kant stesso traccia all'inizio e che percorreremo
+    fedelmente.
+  </p>
+
+  <div class="structure-map">
+    <svg viewBox="0 0 900 640" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#6b4a2b"/>
+        </marker>
+      </defs>
+
+      <!-- Nodo radice -->
+      <g class="sm-node">
+        <rect x="280" y="20" width="340" height="60" fill="#1a1612" stroke="#a67c2e" stroke-width="1.5"/>
+        <text x="450" y="45" text-anchor="middle" fill="#f2ebe0" font-family="Italiana" font-size="16">CRITICA DELLA RAGION PURA</text>
+        <text x="450" y="65" text-anchor="middle" fill="#a67c2e" font-family="JetBrains Mono" font-size="9" letter-spacing="3">1781 · 1787</text>
+      </g>
+
+      <!-- Linee verso i due rami -->
+      <line x1="450" y1="80" x2="250" y2="110" stroke="#6b4a2b" stroke-width="1.5"/>
+      <line x1="450" y1="80" x2="650" y2="110" stroke="#6b4a2b" stroke-width="1.5"/>
+
+      <!-- DOTTRINA DEGLI ELEMENTI -->
+      <g class="sm-node">
+        <rect x="80" y="110" width="340" height="50" fill="#A34075" stroke="#7a1f1f"/>
+        <text x="250" y="140" text-anchor="middle" fill="#f2ebe0" font-family="Italiana" font-size="18">DOTTRINA DEGLI ELEMENTI</text>
+      </g>
+
+      <!-- DOTTRINA DEL METODO -->
+      <g class="sm-node">
+        <rect x="480" y="110" width="340" height="50" fill="#A34075" stroke="#7a1f1f"/>
+        <text x="650" y="140" text-anchor="middle" fill="#f2ebe0" font-family="Italiana" font-size="18">DOTTRINA DEL METODO</text>
+        <text x="650" y="155" text-anchor="middle" fill="#f2ebe0" font-family="Cormorant Garamond" font-size="10" font-style="italic" opacity="0.8">disciplina · canone · architettonica · storia</text>
+      </g>
+
+      <!-- Sotto Dottrina degli Elementi: Estetica e Logica -->
+      <line x1="150" y1="160" x2="150" y2="195" stroke="#6b4a2b" stroke-width="1.5"/>
+      <line x1="350" y1="160" x2="350" y2="195" stroke="#6b4a2b" stroke-width="1.5"/>
+
+      <g class="sm-node">
+        <rect x="50" y="195" width="200" height="55" rx="8" fill="#7B1FA2" opacity="0.9" stroke="#4A148C" stroke-width="2"/>
+        <text x="150" y="220" text-anchor="middle" fill="#f2ebe0" font-family="Italiana" font-size="14">ESTETICA</text>
+        <text x="150" y="238" text-anchor="middle" fill="#f2ebe0" font-family="Italiana" font-size="14">TRASCENDENTALE</text>
+      </g>
+      <g class="sm-node">
+        <rect x="250" y="195" width="200" height="55" rx="8" fill="#7B1FA2" opacity="0.9" stroke="#4A148C" stroke-width="2"/>
+        <text x="350" y="220" text-anchor="middle" fill="#f2ebe0" font-family="Italiana" font-size="14">LOGICA</text>
+        <text x="350" y="238" text-anchor="middle" fill="#f2ebe0" font-family="Italiana" font-size="14">TRASCENDENTALE</text>
+      </g>
+
+      <!-- Estetica contenuto -->
+      <line x1="150" y1="250" x2="150" y2="275" stroke="#6b4a2b" stroke-width="1"/>
+      <g class="sm-node">
+        <rect x="10" y="275" width="280" height="70" fill="#e8dfd0" stroke="#6b4a2b"/>
+        <text x="150" y="295" text-anchor="middle" fill="#4A148C" font-family="JetBrains Mono" font-size="9" letter-spacing="2">STUDIA LA SENSIBILITÀ</text>
+        <text x="150" y="315" text-anchor="middle" fill="#1a1612" font-family="Cormorant Garamond" font-size="11" font-style="italic">Forme a priori:</text>
+        <text x="150" y="333" text-anchor="middle" fill="#7a1f1f" font-family="Italiana" font-size="14">SPAZIO · TEMPO</text>
+      </g>
+
+      <!-- Logica contenuto -->
+      <line x1="350" y1="250" x2="350" y2="275" stroke="#6b4a2b" stroke-width="1"/>
+      <g class="sm-node">
+        <rect x="295" y="275" width="200" height="50" fill="#e8dfd0" stroke="#6b4a2b"/>
+        <text x="395" y="295" text-anchor="middle" fill="#1a1612" font-family="Cormorant Garamond" font-size="11" font-style="italic">studia il pensiero</text>
+        <text x="395" y="312" text-anchor="middle" fill="#1a1612" font-family="Cormorant Garamond" font-size="11" font-style="italic">discorsivo · si divide in:</text>
+      </g>
+
+      <!-- Analitica -->
+      <line x1="395" y1="325" x2="395" y2="350" stroke="#6b4a2b" stroke-width="1"/>
+      <line x1="395" y1="350" x2="295" y2="380" stroke="#6b4a2b" stroke-width="1"/>
+      <line x1="395" y1="350" x2="495" y2="380" stroke="#6b4a2b" stroke-width="1"/>
+
+      <g class="sm-node">
+        <rect x="195" y="380" width="200" height="55" rx="8" fill="#4A148C" stroke="#4A148C"/>
+        <text x="295" y="405" text-anchor="middle" fill="#f2ebe0" font-family="Italiana" font-size="14">ANALITICA</text>
+        <text x="295" y="423" text-anchor="middle" fill="#f2ebe0" font-family="Italiana" font-size="14">TRASCENDENTALE</text>
+      </g>
+
+      <line x1="295" y1="435" x2="295" y2="460" stroke="#6b4a2b" stroke-width="1"/>
+      <g class="sm-node">
+        <rect x="165" y="460" width="260" height="70" fill="#e8dfd0" stroke="#6b4a2b"/>
+        <text x="295" y="480" text-anchor="middle" fill="#4A148C" font-family="JetBrains Mono" font-size="9" letter-spacing="2">STUDIA L'INTELLETTO</text>
+        <text x="295" y="500" text-anchor="middle" fill="#1a1612" font-family="Cormorant Garamond" font-size="11" font-style="italic">Forme a priori:</text>
+        <text x="295" y="518" text-anchor="middle" fill="#7a1f1f" font-family="Italiana" font-size="14">LE CATEGORIE</text>
+      </g>
+
+      <!-- Dialettica -->
+      <g class="sm-node">
+        <rect x="395" y="380" width="200" height="55" rx="8" fill="#4A148C" stroke="#4A148C"/>
+        <text x="495" y="405" text-anchor="middle" fill="#f2ebe0" font-family="Italiana" font-size="14">DIALETTICA</text>
+        <text x="495" y="423" text-anchor="middle" fill="#f2ebe0" font-family="Italiana" font-size="14">TRASCENDENTALE</text>
+      </g>
+
+      <line x1="495" y1="435" x2="495" y2="460" stroke="#6b4a2b" stroke-width="1"/>
+      <g class="sm-node">
+        <rect x="365" y="460" width="260" height="70" fill="#e8dfd0" stroke="#6b4a2b"/>
+        <text x="495" y="480" text-anchor="middle" fill="#4A148C" font-family="JetBrains Mono" font-size="9" letter-spacing="2">STUDIA LA RAGIONE</text>
+        <text x="495" y="500" text-anchor="middle" fill="#1a1612" font-family="Cormorant Garamond" font-size="11" font-style="italic">Forme a priori:</text>
+        <text x="495" y="518" text-anchor="middle" fill="#7a1f1f" font-family="Italiana" font-size="14">LE IDEE</text>
+      </g>
+
+      <!-- Legenda a lato -->
+      <g>
+        <text x="720" y="250" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="#6b4a2b">LEGENDA</text>
+        <rect x="720" y="260" width="12" height="12" fill="#A34075"/>
+        <text x="738" y="270" font-family="Cormorant Garamond" font-size="11" fill="#1a1612">grande ripartizione</text>
+        <rect x="720" y="280" width="12" height="12" fill="#7B1FA2"/>
+        <text x="738" y="290" font-family="Cormorant Garamond" font-size="11" fill="#1a1612">sezioni maggiori</text>
+        <rect x="720" y="300" width="12" height="12" fill="#4A148C"/>
+        <text x="738" y="310" font-family="Cormorant Garamono" font-size="11" fill="#1a1612">sottosezioni</text>
+        <rect x="720" y="320" width="12" height="12" fill="#e8dfd0" stroke="#6b4a2b"/>
+        <text x="738" y="330" font-family="Cormorant Garamond" font-size="11" fill="#1a1612">contenuto</text>
+      </g>
+
+      <!-- Output finale -->
+      <text x="450" y="580" text-anchor="middle" font-family="Italiana" font-size="14" fill="#7a1f1f" letter-spacing="2">↓ struttura integrale della prima Critica ↓</text>
+      <text x="450" y="610" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="12" fill="#6b4a2b">dalla sensibilità alla ragione, attraverso l'intelletto</text>
+    </svg>
+  </div>
+
+  <p style="margin-top:1rem; font-size: 0.95rem; font-style: italic; color: var(--sepia);">
+    ✧ Schema basato sulla mappa XMind "La struttura della Critica della Ragion Pura" e integrato con la
+    presentazione di studio.
+  </p>
+</section>
+
+<!-- ============ V. LE FACOLTÀ ============ -->
+<section id="facolta" class="reveal">
+  <div class="chapter-mark">§ V</div>
+  <div class="chapter-num">Tre facoltà, tre forme a priori</div>
+  <h2 class="chapter-title">Le <em>facoltà</em> della conoscenza</h2>
+
+  <div class="pullquote">
+    Ogni nostra conoscenza scaturisce dai sensi, da qui va all'intelletto, per finire nella ragione.
+    <cite>— CRITICA, INTRODUZIONE</cite>
+  </div>
+
+  <p>
+    Prima di seguire la struttura dell'opera, fissiamo le tre facoltà cognitive con le loro forme
+    a priori. L'architettura della Critica rispetta esattamente questa tripartizione.
+  </p>
+
+  <div class="faculty-grid">
+    <div class="faculty">
+      <div class="symbol">⧉</div>
+      <h4>Sensibilità</h4>
+      <div class="german"><em>Sinnlichkeit</em></div>
+      <p>Facoltà <em>ricettiva</em>: tramite essa gli oggetti ci sono dati intuitivamente attraverso i sensi e le forme a priori di spazio e tempo.</p>
+      <div class="output">→ studiata nell'ESTETICA</div>
+    </div>
+    <div class="faculty">
+      <div class="symbol">⚖</div>
+      <h4>Intelletto</h4>
+      <div class="german"><em>Verstand</em></div>
+      <p>Facoltà <em>spontanea</em>: pensiamo i dati sensibili attraverso concetti puri o <em>categorie</em>. Unifica il molteplice in giudizi.</p>
+      <div class="output">→ studiato nell'ANALITICA</div>
+    </div>
+    <div class="faculty">
+      <div class="symbol">✦</div>
+      <h4>Ragione</h4>
+      <div class="german"><em>Vernunft</em></div>
+      <p>Facoltà dell'<em>incondizionato</em>: partendo dall'esperienza, cerca di spiegare globalmente la realtà tramite le idee di anima, mondo, Dio.</p>
+      <div class="output">→ studiata nella DIALETTICA</div>
+    </div>
+  </div>
+
+  <div style="margin: 3rem auto; padding: 2rem; background: var(--paper-dark); border: 1px solid var(--sepia); max-width: 800px;">
+    <h3 style="font-family:'Italiana', serif; font-size: 1.5rem; margin-bottom: 1rem; color: var(--crimson);">Cosa significa «trascendentale»?</h3>
+    <p style="font-style: italic; color: var(--sepia); margin-bottom: 1rem;">
+      Una precisazione decisiva. In Kant "trascendentale" non coincide con "trascendente".
+    </p>
+    <p>
+      <em>Trascendente</em> è ciò che va oltre l'esperienza possibile (Dio, l'anima come sostanza
+      semplice). <em>Trascendentale</em>, invece, è ciò che rende possibile l'esperienza: non una
+      proprietà ontologica della realtà in sé, ma una <em>condizione gnoseologica</em>.
+    </p>
+    <div class="pullquote" style="margin: 1.5rem 0 0;">
+      Chiamo trascendentali ogni conoscenza che si occupi, in generale, non tanto di oggetti quanto del
+      nostro modo di conoscere gli oggetti nella misura in cui questo deve essere possibile a priori.
+      <cite>— CRITICA, INTRODUZIONE</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VI. ESTETICA TRASCENDENTALE ============ -->
+<section id="estetica" class="reveal">
+  <div class="chapter-mark">§ VI</div>
+  <div class="chapter-num">Dottrina degli elementi · parte prima</div>
+  <h2 class="chapter-title">Estetica <em>trascendentale</em></h2>
+
+  <p class="lead">
+    L'Estetica trascendentale è la scienza di tutti i principi a priori della sensibilità. Qui Kant
+    non parla di arte: αἴσθησις significa <em>percezione</em>. La sensibilità è ricettiva — ma non
+    solo: è anche attiva, perché organizza le intuizioni empiriche tramite spazio e tempo, che sono
+    forme pure a priori.
+  </p>
+
+  <div style="background: var(--paper-dark); padding: 1.8rem; border-left: 3px solid var(--crimson); margin: 2rem 0; max-width: 780px;">
+    <h4 style="font-family:'Italiana', serif; font-size: 1.3rem; margin-bottom: 0.5rem;">Materia e forma della conoscenza</h4>
+    <p style="font-size: 1rem; margin: 0;">
+      Le sensazioni ci forniscono continuamente una molteplicità di dati sensibili (la <em>materia</em>)
+      che vengono organizzati non a caso, ma secondo una legge: spazio e tempo (la <em>forma</em>).
+      Spazio e tempo <em>precedono</em> la sensazione — sono forme pure a priori che appartengono al
+      soggetto, non all'oggetto.
+    </p>
+  </div>
+
+  <div class="aesthetics-interactive">
+    <div class="form-card">
+      <div class="symbol">⧉</div>
+      <h3>SPAZIO</h3>
+      <div class="greek">forma del senso esterno</div>
+      <p>
+        Non un concetto empirico ricavato dall'esperienza, ma l'<em>intuizione pura</em> che rende
+        possibile ogni percezione di oggetti esterni. Non possiamo rappresentare l'assenza di spazio,
+        benché possiamo pensare uno spazio vuoto di oggetti.
+      </p>
+    </div>
+    <div class="form-card">
+      <div class="symbol">⧗</div>
+      <h3>TEMPO</h3>
+      <div class="greek">forma del senso interno</div>
+      <p>
+        Condizione universale di ogni nostro stato mentale e, <em>mediatamente</em>, di ogni fenomeno
+        esterno (perché anche ciò che sta fuori di me è esperito temporalmente nella mia coscienza).
+        Non percepiamo il tempo come un oggetto: esso è la forma dell'ordinamento delle rappresentazioni.
+      </p>
+    </div>
+  </div>
+
+  <h3 class="sub">Quattro caratteri di spazio e tempo</h3>
+
+  <div class="domande-grid">
+    <div class="domanda" style="text-align: left;">
+      <div class="nr" style="font-size:1.3rem;">①</div>
+      <p style="font-size:0.95rem;">Non derivano dall'esperienza ma sono presupposti in ogni esperienza</p>
+    </div>
+    <div class="domanda" style="text-align: left;">
+      <div class="nr" style="font-size:1.3rem;">②</div>
+      <p style="font-size:0.95rem;">Sono ideali e soggettivi — quadri mentali a priori</p>
+    </div>
+    <div class="domanda" style="text-align: left;">
+      <div class="nr" style="font-size:1.3rem;">③</div>
+      <p style="font-size:0.95rem;">Sono reali e oggettivi rispetto all'esperienza</p>
+    </div>
+    <div class="domanda" style="text-align: left;">
+      <div class="nr" style="font-size:1.3rem;">④</div>
+      <p style="font-size:0.95rem;">Sono intuitivi — non discorsivi, non concettuali</p>
+    </div>
+  </div>
+
+  <div class="pullquote">
+    Spazio e tempo sono le forme pure della sensibilità, la sensazione in generale ne è la materia.
+    <cite>— CRITICA DELLA RAGION PURA, A42/B59</cite>
+  </div>
+
+  <!-- ESPERIMENTO -->
+  <div class="aesth-demo">
+    <h3>⁂ Esperimento: prova a togliere spazio e tempo ⁂</h3>
+    <p style="text-align:center; max-width:600px; margin: 0 auto 1rem; font-style: italic;">
+      Kant sostiene che non possiamo rappresentare un'esperienza priva di queste forme. Prova le
+      quattro configurazioni e osserva cosa accade all'oggetto percepito.
+    </p>
+    <div class="aesth-controls">
+      <button class="aesth-btn active" data-mode="normal">CON SPAZIO + TEMPO</button>
+      <button class="aesth-btn" data-mode="no-time">SENZA TEMPO</button>
+      <button class="aesth-btn" data-mode="no-space">SENZA SPAZIO</button>
+      <button class="aesth-btn" data-mode="none">SENZA ENTRAMBI</button>
+    </div>
+    <svg id="aesth-canvas" viewBox="0 0 600 280"></svg>
+    <div class="aesth-caption" id="aesth-caption">
+      L'oggetto appare <em>qui</em> (spazio) e <em>ora</em>, mutando nel tempo. Questa è l'esperienza ordinaria, resa possibile dalle due forme pure.
+    </div>
+  </div>
+
+  <p>
+    La matematica trova qui la sua legittimazione: la geometria è possibile perché lo spazio è
+    intuizione pura, l'aritmetica perché il tempo lo è (la successione <em>è</em> la forma interna del
+    contare). Non leggiamo le leggi geometriche nelle cose: le portiamo ad esse.
+  </p>
+</section>
+
+<!-- ============ VII. ANALITICA / DOTTRINA DEI GIUDIZI ============ -->
+<section id="analitica" class="reveal">
+  <div class="chapter-mark">§ VII</div>
+  <div class="chapter-num">Dottrina degli elementi · parte seconda, sezione 1</div>
+  <h2 class="chapter-title">Analitica · la dottrina dei <em>giudizi</em></h2>
+
+  <p class="lead">
+    Dopo la sensibilità, l'intelletto. L'Analitica trascendentale studia i concetti puri — le
+    <em>categorie</em> — con cui l'intelletto pensa il molteplice sensibile e costituisce l'esperienza
+    oggettiva. La chiave di volta è una tesi audace: <em>pensare è giudicare</em>.
+  </p>
+
+  <div class="pullquote">
+    Senza sensibilità, nessun oggetto ci verrebbe dato; senza intelletto, nessun oggetto verrebbe
+    pensato. Pensieri senza contenuto sono vuoti, intuizioni senza concetti sono cieche.
+    <cite>— CRITICA, A51/B75</cite>
+  </div>
+
+  <h3 class="sub">A · Concetti empirici e concetti puri</h3>
+
+  <p>
+    I concetti non sono intuizioni passive: sono <em>funzioni</em> dell'intelletto, operazioni attive
+    che uniscono rappresentazioni diverse sotto una rappresentazione comune. Ce ne sono di due tipi:
+  </p>
+
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0;">
+    <div style="padding: 1.5rem; background: var(--paper-dark); border: 1px solid var(--rule);">
+      <div style="font-family:'JetBrains Mono', monospace; font-size:0.7rem; letter-spacing:0.25em; color:var(--sepia); margin-bottom:0.5rem;">EMPIRICI</div>
+      <h4 style="font-family:'Italiana', serif; font-size:1.3rem; margin-bottom:0.5rem;">Ricavati dall'esperienza</h4>
+      <p style="font-size:0.95rem; margin:0;">Concetti come <em>rosso</em>, <em>cane</em>, <em>sedia</em>: generalizzazioni astratte dalle percezioni.</p>
+    </div>
+    <div style="padding: 1.5rem; background: var(--paper-dark); border: 1px solid var(--crimson);">
+      <div style="font-family:'JetBrains Mono', monospace; font-size:0.7rem; letter-spacing:0.25em; color:var(--crimson); margin-bottom:0.5rem;">★ PURI O A PRIORI ★</div>
+      <h4 style="font-family:'Italiana', serif; font-size:1.3rem; margin-bottom:0.5rem;">Le categorie</h4>
+      <p style="font-size:0.95rem; margin:0;">Predicati primi, <em>funzioni supreme unificatrici dell'intelletto</em>. Non derivano dall'esperienza: la rendono possibile.</p>
+    </div>
+  </div>
+
+  <div style="margin:2rem 0; padding:1.5rem; border: 1px dashed var(--sepia); font-style:italic; color:var(--sepia);">
+    <strong style="color:var(--crimson); font-style:normal;">Nota critica:</strong> le categorie kantiane
+    non hanno valenza <em>ontologica</em> (come in Aristotele) ma solo <em>gnoseologica e
+    trascendentale</em>. Rappresentano le <em>leges mentis</em> — il modo di funzionare dell'intelletto
+    — e riguardano solo i fenomeni, non le cose in sé.
+  </div>
+
+  <h3 class="sub">B · Dalla tavola dei giudizi alla tavola delle categorie</h3>
+
+  <p>
+    Kant procede con una mossa geniale: la logica formale ha già stilato l'elenco completo delle forme
+    possibili del giudizio. Da queste <strong>dodici forme logiche</strong> Kant deduce le <strong>dodici categorie</strong> —
+    ogni categoria è la regola con cui quella forma si applica agli oggetti.
+  </p>
+
+  <div class="judgments-wrap">
+    <div class="judgments-caption">Tavola dei giudizi ⟷ Tavola delle categorie</div>
+    <div class="judgments-sub">Clicca su una cella per vedere esempio e funzione</div>
+
+    <div class="judgments-table">
+      <div class="jcell header"></div>
+      <div class="jcell header">I</div>
+      <div class="jcell header">II</div>
+      <div class="jcell header">III</div>
+
+      <!-- QUANTITÀ -->
+      <div class="jcell row-label">Quantità</div>
+      <div class="jcell">
+        <span class="judg">Singolari</span>
+        <span class="cat">↓ Unità</span>
+        <span class="detail">Es. "Questa rosa è rossa." Un singolo oggetto pensato come uno.</span>
+      </div>
+      <div class="jcell">
+        <span class="judg">Particolari</span>
+        <span class="cat">↓ Pluralità</span>
+        <span class="detail">Es. "Alcune rose sono rosse." Molti oggetti come molti.</span>
+      </div>
+      <div class="jcell">
+        <span class="judg">Universali</span>
+        <span class="cat">↓ Totalità</span>
+        <span class="detail">Es. "Tutte le rose sono fiori." L'insieme pensato come uno.</span>
+      </div>
+
+      <!-- QUALITÀ -->
+      <div class="jcell row-label">Qualità</div>
+      <div class="jcell">
+        <span class="judg">Affermativi</span>
+        <span class="cat">↓ Realtà</span>
+        <span class="detail">Es. "L'anima è mortale." Ciò che è, ciò che possiede una proprietà.</span>
+      </div>
+      <div class="jcell">
+        <span class="judg">Negativi</span>
+        <span class="cat">↓ Negazione</span>
+        <span class="detail">Es. "L'anima non è mortale." L'assenza di una proprietà.</span>
+      </div>
+      <div class="jcell">
+        <span class="judg">Infiniti</span>
+        <span class="cat">↓ Limitazione</span>
+        <span class="detail">Es. "L'anima è non-mortale." Realtà circoscritta da negazione.</span>
+      </div>
+
+      <!-- RELAZIONE -->
+      <div class="jcell row-label">Relazione</div>
+      <div class="jcell">
+        <span class="judg">Categorici</span>
+        <span class="cat">↓ Sostanza / Accidente</span>
+        <span class="detail">Es. "Il corpo è pesante." Ciò che permane e ciò che si predica.</span>
+      </div>
+      <div class="jcell">
+        <span class="judg">Ipotetici</span>
+        <span class="cat">↓ Causa / Effetto</span>
+        <span class="detail">Es. "Se il sole splende, la pietra si scalda." Connessione necessaria.</span>
+      </div>
+      <div class="jcell">
+        <span class="judg">Disgiuntivi</span>
+        <span class="cat">↓ Reciprocità</span>
+        <span class="detail">Es. "È giorno oppure è notte." Azione reciproca in un tutto.</span>
+      </div>
+
+      <!-- MODALITÀ -->
+      <div class="jcell row-label">Modalità</div>
+      <div class="jcell">
+        <span class="judg">Problematici</span>
+        <span class="cat">↓ Possibilità</span>
+        <span class="detail">Es. "Forse pioverà." Ciò che può essere.</span>
+      </div>
+      <div class="jcell">
+        <span class="judg">Assertori</span>
+        <span class="cat">↓ Esistenza</span>
+        <span class="detail">Es. "Piove." Ciò che effettivamente è.</span>
+      </div>
+      <div class="jcell">
+        <span class="judg">Apodittici</span>
+        <span class="cat">↓ Necessità</span>
+        <span class="detail">Es. "7+5 deve fare 12." Ciò che non può non essere.</span>
+      </div>
+    </div>
+    <div class="table-hint">⁂ TOCCA OGNI CELLA ⁂</div>
+  </div>
+
+  <div class="pullquote">
+    Le categorie non sono semplici funzioni logiche: sono regole per formulare giudizi su oggetti — su
+    un mondo oggettivo.
+    <cite>— STANFORD ENCYCLOPEDIA OF PHILOSOPHY, DEDUZIONE METAFISICA</cite>
+  </div>
+
+  <p>
+    Queste dodici categorie non <em>descrivono</em> il mondo: lo <em>costituiscono</em>. Causa ed
+    effetto, sostanza e accidente, possibilità e necessità — non le leggiamo nelle cose, ma le portiamo
+    ad esse. Ecco perché la scienza newtoniana è possibile con validità universale: non perché la
+    natura segua leggi scritte nel cielo, ma perché il nostro intelletto <em>prescrive</em> leggi alla
+    natura.
+  </p>
+</section>
+
+<!-- ============ VIII. DEDUZIONE TRASCENDENTALE ============ -->
+<section id="deduzione" class="reveal">
+  <div class="chapter-mark">§ VIII</div>
+  <div class="chapter-num">Il cuore dell'Analitica</div>
+  <h2 class="chapter-title">La deduzione trascendentale e l'<em>Io penso</em></h2>
+
+  <p class="lead">
+    Kant ha mostrato <em>cosa</em> siano le categorie. Ora deve mostrare che è <em>legittimo</em>
+    applicarle. Qui "deduzione" non va intesa in senso logico, ma <em>in senso giuridico</em>:
+    dimostrazione della legittimità di un diritto, come quando si dimostra in tribunale il fondamento
+    di una pretesa.
+  </p>
+
+  <div style="background: var(--paper-dark); padding: 1.8rem; border: 1px solid var(--crimson); margin: 2rem 0; max-width: 780px;">
+    <h4 style="font-family:'Italiana', serif; font-size: 1.3rem; margin-bottom: 0.7rem; color: var(--crimson);">Il problema in sintesi</h4>
+    <p style="font-size: 1rem; margin: 0;">
+      Se le categorie sono <em>forme soggettive</em> della nostra mente, perché pretendono di valere
+      anche per gli oggetti esterni? Chi ci garantisce che la natura <em>obbedisca</em> alle categorie?
+      <br><br>
+      <em style="color:var(--sepia);">(Per spazio e tempo il problema non si pone: non abbiamo nessuna
+      intuizione di oggetti fuori di spazio e tempo — quindi la loro validità è immediata.)</em>
+    </p>
+  </div>
+
+  <h3 class="sub">La soluzione: l'«Io penso»</h3>
+
+  <p>
+    L'unificazione del molteplice è opera di un'attività sintetica che ha sede nell'intelletto: un
+    centro mentale unificatore, l'<em>Io penso</em>, che deve poter accompagnare <em>tutte</em> le
+    nostre rappresentazioni.
+  </p>
+
+  <div class="io-penso-center">
+    <div class="latin">APPERCEZIONE TRASCENDENTALE</div>
+    <div class="main">Io penso</div>
+    <div class="latin">↓</div>
+    <div class="sub">
+      Principio supremo della conoscenza umana. Senza un Io che riconosce come <em>proprie</em> le
+      rappresentazioni, nessuna esperienza sarebbe unificata in un'esperienza <em>di qualcosa</em>.
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin: 2rem 0; align-items: center;">
+    <div style="padding:1.2rem; background:var(--paper-dark); border-top: 3px solid var(--crimson);">
+      <div style="font-family:'JetBrains Mono', monospace; font-size:0.78rem; font-weight:500; letter-spacing:0.28em; color:var(--crimson);">PREMESSA 1</div>
+      <p style="font-size:1.05rem; line-height:1.55; margin-top:0.5rem; color:var(--ink);">Tutti i pensieri presuppongono l'Io penso</p>
+    </div>
+    <div style="padding:1.2rem; background:var(--paper-dark); border-top: 3px solid var(--crimson);">
+      <div style="font-family:'JetBrains Mono', monospace; font-size:0.78rem; font-weight:500; letter-spacing:0.28em; color:var(--crimson);">PREMESSA 2</div>
+      <p style="font-size:1.05rem; line-height:1.55; margin-top:0.5rem; color:var(--ink);">L'Io penso opera tramite giudizi — e quindi tramite categorie</p>
+    </div>
+    <div style="padding:1.2rem; background:var(--crimson); color:var(--paper); border-top: 3px solid var(--gold-bright);">
+      <div style="font-family:'JetBrains Mono', monospace; font-size:0.78rem; font-weight:500; letter-spacing:0.28em; color:var(--gold-bright);">CONCLUSIONE</div>
+      <p style="font-size:1.05rem; line-height:1.55; margin-top:0.5rem; color:var(--paper);">Tutti gli oggetti pensati presuppongono le categorie</p>
+    </div>
+  </div>
+
+  <p style="margin-top:2rem;">
+    Le categorie sono <em>legittime</em> perché sono le condizioni di possibilità dell'unità stessa
+    della coscienza. Non c'è esperienza possibile senza un Io unificatore, né unità della coscienza
+    senza categorie.
+  </p>
+
+  <h3 class="sub">Analitica dei principi e noumeno</h3>
+
+  <p>
+    Resta una domanda: come si applicano concretamente le categorie alle intuizioni sensibili? Kant
+    risponde con la dottrina degli <em>schemi trascendentali</em>: mediatori temporali che traducono
+    la forma pura della categoria in una determinazione applicabile al fenomeno. Lo <em>schema</em>
+    della sostanza, ad esempio, è la permanenza nel tempo; quello della causalità, la successione
+    regolare.
+  </p>
+
+  <div style="background: var(--paper-dark); padding: 1.8rem; border-left: 4px solid var(--gold); margin: 2rem 0;">
+    <h4 style="font-family:'Italiana', serif; font-size: 1.3rem; margin-bottom: 0.7rem;">Il noumeno come concetto-limite</h4>
+    <p style="font-size: 1rem; margin: 0;">
+      Se le categorie sono <em>vuote</em> senza intuizioni, la conoscenza non può spingersi oltre
+      l'esperienza possibile. La scienza è sempre conoscenza fenomenica. Ma la realtà non si riduce al
+      fenomeno: <em>se c'è un per-noi, ci deve essere un in-sé</em>. La cosa in sé (noumeno) rimane
+      presupposto dei fenomeni, pur non potendo diventare oggetto di conoscenza. È un
+      <em>concetto-limite</em> per arginare le pretese della ragione.
+    </p>
+  </div>
+</section>
+
+<!-- ============ IX. DIALETTICA TRASCENDENTALE ============ -->
+<section id="dialettica" class="reveal">
+  <div class="chapter-mark">§ IX</div>
+  <div class="chapter-num">Dottrina degli elementi · parte seconda, sezione 2</div>
+  <h2 class="chapter-title">Dialettica · le <em>idee</em> della ragione</h2>
+
+  <p class="lead">
+    Finalmente Kant affronta la metafisica. La ragione, non contenta del mondo fenomenico (condizionato
+    e relativo), cerca una spiegazione globale e assoluta. Vuole l'<em>incondizionato</em>. Nasce così
+    la metafisica — come tendenza innata e inevitabile — ma questo non significa che i suoi
+    ragionamenti siano validi. La risposta di Kant è negativa: <em>la metafisica come scienza è
+    impossibile</em>.
+  </p>
+
+  <div class="metafora-colomba">
+    <svg viewBox="0 0 100 100">
+      <path d="M20 50 Q 30 30, 50 35 Q 70 30, 85 45 L 80 55 Q 60 50, 50 55 Q 40 55, 20 50 Z" fill="#a67c2e" opacity="0.7"/>
+      <circle cx="80" cy="42" r="3" fill="#1a1612"/>
+      <path d="M 50 55 Q 45 65, 50 70" stroke="#6b4a2b" fill="none" stroke-width="1"/>
+      <path d="M 55 55 Q 58 65, 55 75" stroke="#6b4a2b" fill="none" stroke-width="1"/>
+      <!-- nuvola -->
+      <ellipse cx="30" cy="75" rx="20" ry="4" fill="#c9b99e" opacity="0.3"/>
+      <ellipse cx="70" cy="80" rx="15" ry="3" fill="#c9b99e" opacity="0.3"/>
+    </svg>
+    <div class="txt">
+      <h4>La metafora della colomba</h4>
+      <p>
+        La colomba leggera, che nel suo libero volo fende l'aria di cui sente la resistenza, potrebbe
+        pensare di volare meglio nello spazio vuoto d'aria. Così l'uomo: spinto dalla tendenza
+        all'assoluto, immagina di poter conoscere oltre l'esperienza, senza accorgersi che proprio
+        l'esperienza è l'aria che rende possibile il volo.
+      </p>
+    </div>
+  </div>
+
+  <h3 class="sub">Le tre idee trascendentali</h3>
+
+  <p>
+    La ragione pretende di conoscere tre totalità — tre "idee" — che pretendono di cogliere
+    l'incondizionato. Kant dimostra che ciascuna di queste pretese è illegittima.
+  </p>
+
+  <div class="idee-wrap">
+    <div class="idea">
+      <div class="symbol">☽</div>
+      <h4>Anima</h4>
+      <div class="discipline">PSICOLOGIA RAZIONALE</div>
+      <p>Idea della totalità assoluta dei <em>fenomeni interni</em>. Pretende di conoscere l'anima come sostanza semplice, immortale, identica a sé. Kant ne dimostra il fallimento: <em>paralogismi</em>.</p>
+    </div>
+    <div class="idea">
+      <div class="symbol">🜨</div>
+      <h4>Mondo</h4>
+      <div class="discipline">COSMOLOGIA RAZIONALE</div>
+      <p>Idea della totalità assoluta dei <em>fenomeni esterni</em>. Pretende di conoscere il mondo come totalità (finito/infinito, creato/eterno). Kant ne dimostra il fallimento: le <em>antinomie</em>.</p>
+    </div>
+    <div class="idea">
+      <div class="symbol">☉</div>
+      <h4>Dio</h4>
+      <div class="discipline">TEOLOGIA RAZIONALE</div>
+      <p>Totalità di tutte le totalità, l'incondizionato supremo. Kant confuta le tre prove classiche dell'esistenza di Dio: <em>ontologica, cosmologica, fisico-teologica</em>.</p>
+    </div>
+  </div>
+
+  <h3 class="sub">Ma le idee non sono inutili: funzione regolativa</h3>
+
+  <p>
+    Pur non essendo <em>costitutive</em> di conoscenza, le idee trascendentali continuano ad avere un
+    valore. Sono <em>principi regolativi</em>: non ci dicono cosa le cose <em>sono</em>, ma come la
+    ragione deve <em>procedere</em> nella sua indagine. Sono regole metodologiche che spingono la
+    ragione a dare al suo campo, l'esperienza, la massima estensione e la massima unità sistematica.
+  </p>
+
+  <div class="regulative-grid">
+    <div class="reg-item">
+      <strong>Anima</strong>
+      La ragione studia i fenomeni interni <em>come se</em> fossero manifestazione di un'unica sostanza semplice.
+    </div>
+    <div class="reg-item">
+      <strong>Mondo</strong>
+      La ragione studia i fenomeni naturali <em>come se</em> la totalità costituisse un unico mondo ordinato.
+    </div>
+    <div class="reg-item">
+      <strong>Dio</strong>
+      La ragione considera l'intera esperienza <em>come se</em> dipendesse da un unico creatore, garanzia di unità sistematica.
+    </div>
+  </div>
+
+  <p>
+    Il <em>come se</em> (<em>als ob</em>) è la formula chiave: le idee non descrivono la realtà, ma
+    guidano la ricerca. Kant salva la metafisica come <em>esigenza</em> della ragione, mentre la nega
+    come scienza teorica.
+  </p>
+</section>
+
+<!-- ============ X. SINTESI FINALE ============ -->
+<section id="sintesi" class="reveal">
+  <div class="chapter-mark">§ X</div>
+  <div class="chapter-num">Architettura complessiva</div>
+  <h2 class="chapter-title">L'<em>architettura</em> della conoscenza</h2>
+
+  <p class="lead">
+    Ecco come tutto si compone in un'unica visione. Dalla cosa in sé — inconoscibile ma pensabile —
+    all'esperienza oggettiva, passando attraverso l'intera filiera delle facoltà: sensibilità,
+    intelletto, ragione. Ogni tappa ha la sua forma a priori e il suo limite.
+  </p>
+
+  <div class="synthesis-map">
+    <svg viewBox="0 0 900 620" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#6b4a2b"/>
+        </marker>
+        <marker id="arrowG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0,0 L10,5 L0,10 z" fill="#a67c2e"/>
+        </marker>
+      </defs>
+
+      <!-- Cosa in sé -->
+      <g>
+        <rect x="340" y="20" width="220" height="60" fill="none" stroke="#6b4a2b" stroke-width="1" stroke-dasharray="4 3"/>
+        <text x="450" y="45" text-anchor="middle" font-family="JetBrains Mono" font-size="10" letter-spacing="3" fill="#6b4a2b">NOUMENO</text>
+        <text x="450" y="65" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="14" fill="#6b4a2b">cosa in sé · inconoscibile</text>
+        <line x1="450" y1="80" x2="450" y2="115" stroke="#6b4a2b" stroke-dasharray="3 3"/>
+        <text x="470" y="100" font-family="Cormorant Garamond" font-style="italic" font-size="12" fill="#6b4a2b">affezione</text>
+      </g>
+
+      <!-- Materia -->
+      <g>
+        <rect x="360" y="120" width="180" height="40" fill="#e8dfd0" stroke="#7a1f1f"/>
+        <text x="450" y="145" text-anchor="middle" font-family="Italiana" font-size="14" fill="#1a1612">materia sensibile</text>
+      </g>
+
+      <line x1="450" y1="160" x2="450" y2="195" stroke="#a67c2e" stroke-width="1.5" marker-end="url(#arrowG)"/>
+
+      <!-- Estetica -->
+      <g>
+        <rect x="210" y="200" width="480" height="100" fill="#7B1FA2" opacity="0.12" stroke="#7B1FA2" stroke-width="1.5"/>
+        <text x="450" y="225" text-anchor="middle" font-family="JetBrains Mono" font-size="10" letter-spacing="3" fill="#4A148C">§ VI · ESTETICA — SENSIBILITÀ</text>
+        <text x="320" y="260" text-anchor="middle" font-family="Italiana" font-size="20" fill="#1a1612">SPAZIO ⧉</text>
+        <text x="320" y="280" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="12" fill="#6b4a2b">senso esterno</text>
+        <text x="580" y="260" text-anchor="middle" font-family="Italiana" font-size="20" fill="#1a1612">TEMPO ⧗</text>
+        <text x="580" y="280" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="12" fill="#6b4a2b">senso interno</text>
+      </g>
+
+      <line x1="450" y1="300" x2="450" y2="335" stroke="#a67c2e" stroke-width="1.5" marker-end="url(#arrowG)"/>
+      <text x="470" y="320" font-family="Cormorant Garamond" font-style="italic" font-size="12" fill="#6b4a2b">= FENOMENO (intuizione)</text>
+
+      <!-- Analitica -->
+      <g>
+        <rect x="210" y="340" width="480" height="120" fill="#4A148C" opacity="0.1" stroke="#4A148C" stroke-width="1.5"/>
+        <text x="450" y="365" text-anchor="middle" font-family="JetBrains Mono" font-size="10" letter-spacing="3" fill="#4A148C">§ VII · ANALITICA — INTELLETTO</text>
+        <text x="450" y="395" text-anchor="middle" font-family="Italiana" font-size="18" fill="#1a1612">12 FORME DEL GIUDIZIO</text>
+        <text x="450" y="413" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="12" fill="#6b4a2b">Quantità · Qualità · Relazione · Modalità</text>
+        <text x="450" y="435" text-anchor="middle" font-family="Italiana" font-size="18" fill="#7a1f1f">⇓  12 CATEGORIE  ⇓</text>
+        <text x="450" y="453" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="11" fill="#6b4a2b">Unità · Causalità · Sostanza · Necessità …</text>
+      </g>
+
+      <line x1="450" y1="460" x2="450" y2="485" stroke="#7a1f1f" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+      <!-- Esperienza oggettiva -->
+      <g>
+        <rect x="260" y="490" width="380" height="40" fill="#7a1f1f" stroke="#7a1f1f"/>
+        <text x="450" y="515" text-anchor="middle" font-family="Italiana" font-size="16" fill="#f2ebe0" letter-spacing="3">ESPERIENZA OGGETTIVA · SCIENZA</text>
+      </g>
+
+      <!-- Ragione / Dialettica (esterno) -->
+      <g>
+        <rect x="50" y="490" width="180" height="40" fill="none" stroke="#7B1FA2" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="140" y="508" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="#4A148C">§ IX · DIALETTICA</text>
+        <text x="140" y="522" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="11" fill="#6b4a2b">ragione / idee</text>
+      </g>
+      <text x="140" y="545" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="10" fill="#7a1f1f">(oltre l'esperienza)</text>
+      <text x="140" y="560" text-anchor="middle" font-family="Italiana" font-size="12" fill="#4A148C">Anima · Mondo · Dio</text>
+      <text x="140" y="580" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="10" fill="#6b4a2b">uso regolativo</text>
+
+      <!-- Io penso -->
+      <g>
+        <circle cx="80" cy="400" r="48" fill="#1a1612"/>
+        <text x="80" y="395" text-anchor="middle" font-family="Italiana" font-size="14" fill="#f2ebe0">IO</text>
+        <text x="80" y="413" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="12" fill="#a67c2e">penso</text>
+        <path d="M 128 400 Q 180 400 210 405" stroke="#a67c2e" fill="none" stroke-width="1" stroke-dasharray="2 3"/>
+        <text x="155" y="390" font-family="JetBrains Mono" font-size="7" letter-spacing="2" fill="#6b4a2b">APPERCEZIONE</text>
+      </g>
+
+      <!-- Rivoluzione copernicana -->
+      <g>
+        <text x="820" y="260" text-anchor="middle" font-family="Italiana" font-size="18" fill="#a67c2e">☉</text>
+        <text x="820" y="280" text-anchor="middle" font-family="JetBrains Mono" font-size="7" letter-spacing="2" fill="#6b4a2b">RIVOLUZIONE</text>
+        <text x="820" y="292" text-anchor="middle" font-family="JetBrains Mono" font-size="7" letter-spacing="2" fill="#6b4a2b">COPERNICANA</text>
+        <text x="820" y="312" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="10" fill="#6b4a2b">oggetti ⟳ soggetto</text>
+      </g>
+
+      <!-- Legenda noumeno/fenomeno -->
+      <g>
+        <text x="820" y="420" text-anchor="middle" font-family="JetBrains Mono" font-size="7" letter-spacing="2" fill="#6b4a2b">LINEA</text>
+        <text x="820" y="432" text-anchor="middle" font-family="JetBrains Mono" font-size="7" letter-spacing="2" fill="#6b4a2b">INVALICABILE</text>
+        <line x1="770" y1="440" x2="870" y2="440" stroke="#7a1f1f" stroke-width="1" stroke-dasharray="4 2"/>
+        <text x="820" y="455" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="10" fill="#6b4a2b">del conoscere</text>
+      </g>
+    </svg>
+  </div>
+
+  <p>
+    Il risultato è tanto rivoluzionario quanto modesto: la metafisica tradizionale — quella che
+    pretendeva di conoscere Dio, l'anima, il mondo come totalità — è impossibile <em>come scienza
+    teorica</em>. Ma la scienza newtoniana è salva, la morale ha fondamento, e la libertà è pensabile
+    nel regno del noumeno. Kant non ha demolito la metafisica: l'ha riformata dalle fondamenta,
+    rendendola consapevole dei propri limiti.
+  </p>
+
+  <div style="text-align:center; margin: 2.5rem 0; font-family: 'Italiana', serif; font-size: 1.8rem; color: var(--gold); letter-spacing: 0.3em;">
+    ❦ ❧ ❦
+  </div>
+</section>
+
+<!-- ============ QUOTE FINALE ============ -->
+<div class="final-quote">
+  <div class="q">Ho dovuto sopprimere il sapere,<br>per far posto alla fede.</div>
+  <div class="c">— PREFAZIONE ALLA SECONDA EDIZIONE · B XXX</div>
+</div>
+
+<!-- ============ FONTI ============ -->
+<div class="sources" id="fonti">
+  <div class="sources-inner">
+    <h2>Fonti accademiche</h2>
+    <p style="text-align:center; font-style: italic; color: rgba(242,235,224,0.7); margin-bottom: 2rem;">
+      Tutti i contenuti sono verificabili. La struttura segue fedelmente la mappa XMind "La struttura della Critica della Ragion Pura" e la presentazione di studio, integrate con fonti peer-reviewed.
+    </p>
+    <div class="source-list">
+      <div class="source">
+        <div class="num">[ 01 ]</div>
+        <div class="inst">Stanford Encyclopedia of Philosophy</div>
+        <div class="desc">"Immanuel Kant" — vita, opere, rivoluzione copernicana</div>
+        <a href="https://plato.stanford.edu/entries/kant/" target="_blank" rel="noopener">plato.stanford.edu/entries/kant/</a>
+      </div>
+      <div class="source">
+        <div class="num">[ 02 ]</div>
+        <div class="inst">Stanford Encyclopedia of Philosophy</div>
+        <div class="desc">"Kant's Views on Space and Time" — Estetica trascendentale</div>
+        <a href="https://plato.stanford.edu/entries/kant-spacetime/" target="_blank" rel="noopener">plato.stanford.edu/entries/kant-spacetime/</a>
+      </div>
+      <div class="source">
+        <div class="num">[ 03 ]</div>
+        <div class="inst">Stanford Encyclopedia of Philosophy</div>
+        <div class="desc">"Kant's Transcendental Idealism"</div>
+        <a href="https://plato.stanford.edu/entries/kant-transcendental-idealism/" target="_blank" rel="noopener">plato.stanford.edu/entries/kant-transcendental-idealism/</a>
+      </div>
+      <div class="source">
+        <div class="num">[ 04 ]</div>
+        <div class="inst">Stanford Encyclopedia of Philosophy</div>
+        <div class="desc">"Kant's Critique of Metaphysics" — Dialettica e idee</div>
+        <a href="https://plato.stanford.edu/entries/kant-metaphysics/" target="_blank" rel="noopener">plato.stanford.edu/entries/kant-metaphysics/</a>
+      </div>
+      <div class="source">
+        <div class="num">[ 05 ]</div>
+        <div class="inst">Internet Encyclopedia of Philosophy</div>
+        <div class="desc">"Kant, Immanuel: Metaphysics" — tavola categorie</div>
+        <a href="https://iep.utm.edu/kantmeta/" target="_blank" rel="noopener">iep.utm.edu/kantmeta/</a>
+      </div>
+      <div class="source">
+        <div class="num">[ 06 ]</div>
+        <div class="inst">Internet Encyclopedia of Philosophy</div>
+        <div class="desc">"Kant: Transcendental Idealism"</div>
+        <a href="https://iep.utm.edu/kant-transcendental-idealism/" target="_blank" rel="noopener">iep.utm.edu/kant-transcendental-idealism/</a>
+      </div>
+      <div class="source">
+        <div class="num">[ 07 ]</div>
+        <div class="inst">University of Notre Dame</div>
+        <div class="desc">Philosophy Teaching Library — "What Can I Know?"</div>
+        <a href="https://philolibrary.crc.nd.edu/article/what-can-i-know/" target="_blank" rel="noopener">philolibrary.crc.nd.edu/article/what-can-i-know/</a>
+      </div>
+      <div class="source">
+        <div class="num">[ 08 ]</div>
+        <div class="inst">University of Notre Dame</div>
+        <div class="desc">Notre Dame Philosophical Reviews — "A Critical Guide"</div>
+        <a href="https://ndpr.nd.edu/reviews/kants-critique-of-pure-reason-a-critical-guide/" target="_blank" rel="noopener">ndpr.nd.edu/reviews/kants-critique-of-pure-reason</a>
+      </div>
+      <div class="source">
+        <div class="num">[ 09 ]</div>
+        <div class="inst">University of Kentucky</div>
+        <div class="desc">Prof. Brandon C. Look — Philosophy 270 handouts (Analogie dell'esperienza)</div>
+        <a href="https://www.uky.edu/~look/files/Kant%20Handout%204.pdf" target="_blank" rel="noopener">uky.edu/~look/files/Kant_Handout_4.pdf</a>
+      </div>
+      <div class="source">
+        <div class="num">[ 10 ]</div>
+        <div class="inst">Mappa personale · XMind</div>
+        <div class="desc">"La struttura della Critica della Ragion Pura"</div>
+        <a>architettonica dell'opera — schema dottrina degli elementi / del metodo</a>
+      </div>
+      <div class="source">
+        <div class="num">[ 11 ]</div>
+        <div class="inst">Presentazione personale · PowerPoint</div>
+        <div class="desc">"Immanuel Kant" — biografia, opere, criticismo, Io penso, idee regolative</div>
+        <a>contenuti didattici integrati nel testo</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="colophon">
+  ❦ &nbsp; CRITICA DELLA RAGION PURA &nbsp; · &nbsp; INFOGRAFICA DIDATTICA AMPLIATA &nbsp; · &nbsp; A.D. MMXXVI &nbsp; ❦
+</footer>
+
+<script>
+  // === TIMELINE INTERACTIVITY ===
+  document.querySelectorAll('.tl-event').forEach(ev => {
+    ev.addEventListener('click', () => {
+      const wasActive = ev.classList.contains('active');
+      document.querySelectorAll('.tl-event').forEach(e => e.classList.remove('active'));
+      if (!wasActive) ev.classList.add('active');
+    });
+  });
+
+  // === JUDGMENTS TABLE ===
+  document.querySelectorAll('.jcell:not(.header):not(.row-label)').forEach(cell => {
+    cell.addEventListener('click', () => {
+      const wasActive = cell.classList.contains('active');
+      document.querySelectorAll('.jcell').forEach(c => c.classList.remove('active'));
+      if (!wasActive) cell.classList.add('active');
+    });
+  });
+
+  // === AESTHETICS DEMO ===
+  const canvas = document.getElementById('aesth-canvas');
+  const caption = document.getElementById('aesth-caption');
+  const btns = document.querySelectorAll('.aesth-btn');
+  let currentMode = 'normal';
+  let animFrame = null;
+
+  const captions = {
+    'normal': 'L\'oggetto appare <em>qui</em> (spazio) e <em>ora</em>, mutando nel tempo. Questa è l\'esperienza ordinaria, resa possibile dalle due forme pure.',
+    'no-time': 'Senza il tempo, l\'oggetto non può cambiare, né c\'è un "prima" o un "poi". Ogni percezione si congela. Nemmeno lo stesso pensare — che è successivo — può esistere.',
+    'no-space': 'Senza lo spazio, nessuna cosa può essere "fuori" da un\'altra, né avere estensione o posizione. Resta solo un fluire interno di stati, senza oggetti esterni.',
+    'none': 'Il tentativo di abolire entrambe le forme dissolve l\'esperienza stessa. Non resta nulla di pensabile. Ecco la prova kantiana: spazio e tempo sono condizioni <em>necessarie</em> di ogni intuizione.'
+  };
+
+  function draw() {
+    if (animFrame) cancelAnimationFrame(animFrame);
+    canvas.innerHTML = '';
+    const t = Date.now() / 1000;
+
+    if (currentMode === 'normal' || currentMode === 'no-time') {
+      let gridPaths = '';
+      for (let i = 0; i <= 600; i += 40) {
+        gridPaths += `<line x1="${i}" y1="0" x2="${i}" y2="280" stroke="#c9b99e" stroke-width="0.5" opacity="0.4"/>`;
+      }
+      for (let i = 0; i <= 280; i += 40) {
+        gridPaths += `<line x1="0" y1="${i}" x2="600" y2="${i}" stroke="#c9b99e" stroke-width="0.5" opacity="0.4"/>`;
+      }
+      canvas.innerHTML += gridPaths;
+      canvas.innerHTML += `<text x="20" y="25" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="#6b4a2b">SPAZIO ⧉</text>`;
+    }
+
+    if (currentMode === 'normal' || currentMode === 'no-space') {
+      let tx = 50 + ((t * 30) % 500);
+      canvas.innerHTML += `<line x1="50" y1="250" x2="550" y2="250" stroke="#6b4a2b" stroke-width="1"/>`;
+      for (let i = 0; i <= 10; i++) {
+        let x = 50 + i * 50;
+        canvas.innerHTML += `<line x1="${x}" y1="245" x2="${x}" y2="255" stroke="#6b4a2b" stroke-width="1"/>`;
+      }
+      canvas.innerHTML += `<circle cx="${tx}" cy="250" r="4" fill="#7a1f1f"/>`;
+      canvas.innerHTML += `<text x="570" y="254" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="#6b4a2b">⧗ TEMPO</text>`;
+    }
+
+    if (currentMode === 'normal') {
+      let x = 300 + Math.cos(t * 0.8) * 80;
+      let y = 120 + Math.sin(t * 1.3) * 30;
+      let scale = 1 + Math.sin(t * 2) * 0.1;
+      canvas.innerHTML += `
+        <g transform="translate(${x}, ${y}) scale(${scale})">
+          <circle r="30" fill="#7a1f1f" opacity="0.85"/>
+          <circle r="22" fill="#a67c2e" opacity="0.7"/>
+          <circle r="14" fill="#f2ebe0" opacity="0.5"/>
+          <text text-anchor="middle" y="5" font-family="Italiana" font-size="14" fill="#1a1612">oggetto</text>
+        </g>`;
+    } else if (currentMode === 'no-time') {
+      canvas.innerHTML += `
+        <g transform="translate(300, 130)">
+          <circle r="30" fill="#7a1f1f" opacity="0.4"/>
+          <circle r="22" fill="#a67c2e" opacity="0.3"/>
+          <text text-anchor="middle" y="5" font-family="Italiana" font-size="14" fill="#6b4a2b">congelato</text>
+        </g>
+        <text x="300" y="200" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="12" fill="#7a1f1f">nessun mutamento possibile</text>`;
+    } else if (currentMode === 'no-space') {
+      let tx = 50 + ((t * 30) % 500);
+      canvas.innerHTML += `
+        <text x="300" y="100" text-anchor="middle" font-family="Italiana" font-size="14" fill="#6b4a2b">nessuna posizione</text>
+        <text x="300" y="120" text-anchor="middle" font-family="Italiana" font-size="14" fill="#6b4a2b">nessuna estensione</text>
+        <g transform="translate(${tx}, 160)">
+          <circle r="15" fill="#7a1f1f" opacity="${0.3 + Math.abs(Math.sin(t))*0.3}"/>
+        </g>
+        <text x="300" y="210" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="12" fill="#7a1f1f">solo flusso interno</text>`;
+    } else if (currentMode === 'none') {
+      canvas.innerHTML += `
+        <rect x="0" y="0" width="600" height="280" fill="#1a1612"/>
+        <text x="300" y="130" text-anchor="middle" font-family="Italiana" font-size="28" fill="#a67c2e" opacity="0.6">∅</text>
+        <text x="300" y="170" text-anchor="middle" font-family="Cormorant Garamond" font-style="italic" font-size="14" fill="#c9b99e">nessuna esperienza è più possibile</text>`;
+    }
+
+    animFrame = requestAnimationFrame(draw);
+  }
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentMode = btn.dataset.mode;
+      caption.innerHTML = captions[currentMode];
+    });
+  });
+  draw();
+
+  // === REVEAL ===
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
